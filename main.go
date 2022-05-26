@@ -1,8 +1,6 @@
 package main
 
-import (
-	routePack "NurseTasks/router"
-)
+import routePack "NurseTasks/router"
 
 func main() {
 	routePack.Routing()
