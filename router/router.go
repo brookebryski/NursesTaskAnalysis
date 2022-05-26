@@ -2,34 +2,37 @@ package routePack
 
 import (
 	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"text/template"
 )
 
+type Sub struct {
+	Username string
+	Data     string
+}
+
+var tpl *template.Template
+
 func Routing() {
-	router := gin.Default()
-	router.LoadHTMLGlob("template/*")
-	// http.Handle("/login/", http.FileServer(http.Dir("./nurseLogin")))
-	// fmt.Println("Hello World")
-	router.GET("/login/Nurses", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "nurseLogin.html", gin.H{
-			"content": "This is a login page...",
-		})
-	})
-	router.GET("/login/Supervisors", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "supLogin.html", gin.H{
-			"content": "This is a login page...",
-		})
-	})
-	router.GET("/tasks/input", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "nurseTasks.html", gin.H{
-			"content": "This the Nurses Task Page...",
-		})
-	})
-	router.GET("/review/tasks", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "supTasksView.html", gin.H{
-			"content": "This is the supervisors View Page...",
-		})
-	})
-	router.Run("localhost:3000")
+	tpl = template.Must(template.ParseGlob("templates/*.html"))
+	http.HandleFunc("/nurseLogin", getNurseFormHandler)
+	http.HandleFunc("/supLogin", getSupFormHandler)
+	http.HandleFunc("/supHome", getSupHomeHandler)
+	http.HandleFunc("/nurseTasks", getNurseTasks)
+	http.ListenAndServe(":3030", nil)
+}
+
+func getNurseFormHandler(w http.ResponseWriter, r *http.Request) {
+	tpl.ExecuteTemplate(w, "nurseLogin.html", nil)
+}
+
+func getSupFormHandler(w http.ResponseWriter, r *http.Request) {
+	tpl.ExecuteTemplate(w, "supLogin.html", nil)
+}
+
+func getSupHomeHandler(w http.ResponseWriter, r *http.Request) {
+	tpl.ExecuteTemplate(w, "supTasksView.html", nil)
+}
+
+func getNurseTasks(w http.ResponseWriter, r *http.Request) {
+	tpl.ExecuteTemplate(w, "nurseTasks.html", nil)
 }
