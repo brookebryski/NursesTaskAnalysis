@@ -11,6 +11,7 @@ import (
 	// _ "github.com/jinzhu/gorm/dialects/postgres"
 	//"gorm.io/driver/mysql"
 
+	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -36,7 +37,7 @@ const (
 func New(d Driver) {
 	switch d {
 	case MySQL:
-		newPostgresDB()
+		newMySQLDB()
 	case Postgres:
 		newPostgresDB()
 	}
@@ -58,17 +59,21 @@ func newPostgresDB() {
 	})
 }
 
-// func newMySQLDB() {
-// 	once.Do(func() {
-// 		var err error
-// 		db, err = gorm.Open("mysql", "")
-// 		if err != nil {
-// 			log.Fatalf("can't open db: %v", err)
-// 		}
+func newMySQLDB() {
+	mysqlstring := ""
+	once.Do(func() {
+		var err error
+		db, err = gorm.Open(mysql.Open(mysqlstring), &gorm.Config{
 
-// 		fmt.Println("Connected to mySQL")
-// 	})
-// }
+			Logger: logger.Default.LogMode(logger.Info),
+		})
+		if err != nil {
+			log.Fatalf("can't open db: %v", err)
+		}
+
+		fmt.Println("Connected to mySQL")
+	})
+}
 
 // DB return a unique instance of db
 func DB() *gorm.DB { // returns a pointer to gorm.DB

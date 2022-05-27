@@ -10,7 +10,7 @@ type User struct {
 	IsSupervisor string `gorm:"not null"`
 	RegionID     uint   `gorm:"not null"`
 	FacilityID   uint   `gorm:"not null"`
-	IsLoggedIn   string `gorm:not null"`
+	IsLoggedIn   string `gorm:"not null"`
 }
 
 type Region struct {
