@@ -1,8 +1,12 @@
 package routePack
 
 import (
+	"NurseTasks/dbconnection"
+	"NurseTasks/models"
 	"net/http"
 	"text/template"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Sub struct {
@@ -15,12 +19,43 @@ var tpl *template.Template
 func Routing() {
 	tpl = template.Must(template.ParseGlob("templates/*.html"))
 	http.HandleFunc("/nurseLogin", getNurseFormHandler)
+	http.HandleFunc("/loginauth", loginauthFormHandler)
 	http.HandleFunc("/supLogin", getSupFormHandler)
 	http.HandleFunc("/supHome", getSupHomeHandler)
 	http.HandleFunc("/nurseTasks", getNurseTasks)
 	http.ListenAndServe(":3030", nil)
 }
 
+func loginauthFormHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	var user models.User
+	username := r.FormValue("nurseUser")
+	password := r.FormValue("nursePass")
+
+	result := dbconnection.DB().Select("password", "name", "is_nurse", "id", "is_logged_in", "facility_id", "region_id", "is_supervisor", "is_logged_in").First(&user, "name = ?", username)
+
+	if result.Error == nil {
+
+		err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+
+		if err == nil && user.Name == username {
+
+			if user.IsNurse == "True" {
+				user.IsLoggedIn = "True"
+				tpl.ExecuteTemplate(w, "nurseTasks.html", user)
+
+			} else {
+
+				tpl.ExecuteTemplate(w, "nurseLogin.html", "You dont have access because you are not a Nurse")
+				return
+			}
+
+		} else {
+			tpl.ExecuteTemplate(w, "nurseLogin.html", "Your credentials dont match, please try again")
+			return
+		}
+	}
+}
 func getNurseFormHandler(w http.ResponseWriter, r *http.Request) {
 	tpl.ExecuteTemplate(w, "nurseLogin.html", nil)
 }

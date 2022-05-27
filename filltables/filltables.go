@@ -38,6 +38,7 @@ func FillTables() {
 		IsSupervisor: "False",
 		RegionID:     1,
 		FacilityID:   2,
+		IsLoggedIn:   "False",
 	}
 
 	User_Supervisor_Nurse := models.User{
@@ -47,6 +48,7 @@ func FillTables() {
 		IsSupervisor: "True",
 		RegionID:     1,
 		FacilityID:   1,
+		IsLoggedIn:   "False",
 	}
 
 	User_Supervisor1 := models.User{
@@ -56,6 +58,7 @@ func FillTables() {
 		IsSupervisor: "True",
 		RegionID:     2,
 		FacilityID:   1,
+		IsLoggedIn:   "False",
 	}
 	User_Supervisor2 := models.User{
 		Name:         "Brooke",
@@ -64,6 +67,7 @@ func FillTables() {
 		IsSupervisor: "True",
 		RegionID:     2,
 		FacilityID:   2,
+		IsLoggedIn:   "False",
 	}
 
 	task1 := models.Task{

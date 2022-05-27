@@ -1,7 +1,93 @@
 <!DOCTYPE html>
-<html>
-    <style></style>
-    <body>
-        <h1>Nurses submit tasks completed here</h1>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id='name' style="display: none;">{{.Name}}</div>
+    <div id='id' style="display: none;">{{.ID}}</div>
+    <div id='isNurse' style="display: none;">{{.IsNurse}}</div>
+    <div id='isSupervisor' style="display: none;">{{.IsSupervisor}}</div>
+    <div id='facility' style="display: none;">{{.FacilityID}}</div>
+    <div id='region' style="display: none;">{{.RegionID}}</div>
+    <div id='isLoggedIn' style="display: none;">{{.IsLoggedIn}}</div>
+    <h1>Nurse Task Page</h1>
+   
+
+</body>
+<script>
+ $(document).ready(function () {
+
+    // values stored in memory. We can use them anywhere and as long as the session is on.
+    sessionStorage.setItem('username',document.getElementById('name').innerText)
+    sessionStorage.setItem('userid',document.getElementById('id').innerText)
+    sessionStorage.setItem('isNurse',document.getElementById('isNurse').innerText)
+    sessionStorage.setItem('isSupervisor',document.getElementById('isSupervisor').innerText)
+    sessionStorage.setItem('facilityId',document.getElementById('facility').innerText)
+    sessionStorage.setItem('regionId',document.getElementById('region').innerText)
+    sessionStorage.setItem('isLoggedIn',document.getElementById('isLoggedIn').innerText)
+    console.log(sessionStorage.getItem("username"))
+    console.log(sessionStorage.getItem("userid"))
+    console.log(sessionStorage.getItem("isNurse"))
+    console.log(sessionStorage.getItem("isSupervisor"))
+    console.log(sessionStorage.getItem("facilityId"))
+    console.log(sessionStorage.getItem("regionId"))
+    console.log(sessionStorage.getItem("isLoggedIn"))
+    //sessionStorage.clear()
+    
+
+ })
+ 
+
+    
+//     $(document).ready(function () {
+
+//         var tasks = {
+//                 "departmentID": $("#indexname").val(),
+               
+//             }
+
+//             $.ajax({
+//                 url: "/getTasks",
+//                 data: tasks,
+//                 datatype: "json",
+//                 type: "POST",
+//                 success: function (data) {
+//                     console.log(data);
+//                     if (data.Errors.length == 0) {
+//                         refreshaftersend()
+//                     }
+//                     else if (data.Errors.length != 0) {
+//                         for (let i = 0; i < data.Errors.length; i++)  {
+//                             console.log(data.Errors[i])
+//                             console.log(data.Errors[i] == 'Name should be unique')
+//                             if (data.Errors[i] == 'Name should be unique') {
+//                                 $("#indexname").addClass("inputerror")
+//                                 document.getElementById('indexname').value = data.Errors[i]
+                                
+//                             }
+//                             if (data.Errors[i] == 'Index ID should be unique') {
+//                                 $("#indexid").addClass("inputerror")
+//                                 document.getElementById('indexid').value = data.Errors[i]
+
+//                             }
+//                         }
+//                     }
+
+
+
+
+//                 },
+//                 error: function (data) {
+//                     console.log(data);
+//                 }
+// });
+//     })
+</script>
 </html>
