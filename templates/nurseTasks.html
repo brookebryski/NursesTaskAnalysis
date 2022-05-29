@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+         rel = "stylesheet">
+      <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <title>Document</title>
 </head>
+
+<style>
+
+</style>
+
 <body>
 
     <div id='name' style="display: none;">{{.Name}}</div>
@@ -17,7 +25,97 @@
     <div id='facility' style="display: none;">{{.FacilityID}}</div>
     <div id='region' style="display: none;">{{.RegionID}}</div>
     <div id='isLoggedIn' style="display: none;">{{.IsLoggedIn}}</div>
-    <h1>Nurse Task Page</h1>
+    
+    <!-- <div class = "ui-widget">
+        <p>Please select a task to be entered</p>
+        <label for = "automplete-2">Tasks: </label>
+        <input id = "automplete-2">
+     </div> -->
+
+     <!-- Responsive navbar-->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Nurse Task Page</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#">Log Out</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page content-->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Post content-->
+                <article>
+                    <!-- Post header-->
+                    <header class="mb-4">
+                        <!-- Post title-->
+                        <h1 style="display: inline" class="fw-bolder mb-1">Welcome </h1><h1 style="display: inline" id="nursename"></h1>
+                        <!-- Post meta content-->
+                        <div class="text-muted fst-italic mb-2">May 29, 2022</div>
+                        
+                    </header>
+                    <!-- Preview image figure-->
+                    <figure class="mb-4"><img class="img-fluid rounded" src="https://www.conexusmedstaff.com/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNXFoRHc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--393d82bfa1a2ed891e63ab5348460aa52c994634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9VWTI5dFltbHVaVjl2Y0hScGIyNXpld2c2QzNKbGMybDZaVWtpRFRrd01IZzBNREJlQmpvR1JWUTZER2R5WVhacGRIbEpJZ3REWlc1MFpYSUdPd2RVT2dsamNtOXdTU0lRT1RBd2VEUXdNQ3N3S3pBR093ZFUiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--3aa85d99e8f03529886838ace0bec0261b03f59b/shutterstock_1720528870.jpg" alt="..." /></figure>
+                    <!-- Post content-->
+                   
+                </article>
+                
+               
+            </div>
+            <!-- Side widgets-->
+            <div class="col-lg-4">
+                <!-- Search widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Tasks</div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input class="form-control" id="automplete-2" type="text" placeholder="Search task..." aria-label="Search task..." aria-describedby="button-search" />
+                            <button class="btn btn-primary" id="button-search" type="button">Enter</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Categories widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Personal Info</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><p>Works for Region</p></li>
+                                    <li><p>Works for Facility</p></li>
+                                    <li><p>Employee type</p></li>
+                                    
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Side widget-->
+                <div class="card mb-4">
+                    <div class="card-header">Create Task</div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input class="form-control" id="automplete-2" type="text" placeholder="Enter new task..." aria-label="Enter new task..." aria-describedby="button-search" />
+                            <button class="btn btn-primary" id="button-search" type="button">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
    
 
 </body>
@@ -41,53 +139,47 @@
     console.log(sessionStorage.getItem("isLoggedIn"))
     //sessionStorage.clear()
     
+    var nurseName= document.getElementById('nursename')
+    nurseName.textContent= sessionStorage.getItem("username") + "!"
 
  })
  
 
+    var tasks = [];
+    $(document).ready(function () {
+        
+            
     
-//     $(document).ready(function () {
+            $.ajax({
+                url: "http://localhost:3030/tasks",
+                data: tasks,
+                datatype: "json",
+                type: "GET",
+                success: function (data) {
+                    console.log(data)
+                    console.log(data[3])
+                    tasks.push("brooke")
+                    tasks.push("chuck")
+                    tasks.push("dustin")
+                    tasks.push("roberto")
+                    
+                }
+                
+            });
 
-//         var tasks = {
-//                 "departmentID": $("#indexname").val(),
-               
-//             }
+            AllTasks()
 
-//             $.ajax({
-//                 url: "/getTasks",
-//                 data: tasks,
-//                 datatype: "json",
-//                 type: "POST",
-//                 success: function (data) {
-//                     console.log(data);
-//                     if (data.Errors.length == 0) {
-//                         refreshaftersend()
-//                     }
-//                     else if (data.Errors.length != 0) {
-//                         for (let i = 0; i < data.Errors.length; i++)  {
-//                             console.log(data.Errors[i])
-//                             console.log(data.Errors[i] == 'Name should be unique')
-//                             if (data.Errors[i] == 'Name should be unique') {
-//                                 $("#indexname").addClass("inputerror")
-//                                 document.getElementById('indexname').value = data.Errors[i]
-                                
-//                             }
-//                             if (data.Errors[i] == 'Index ID should be unique') {
-//                                 $("#indexid").addClass("inputerror")
-//                                 document.getElementById('indexid').value = data.Errors[i]
+            
 
-//                             }
-//                         }
-//                     }
+    })
 
 
-
-
-//                 },
-//                 error: function (data) {
-//                     console.log(data);
-//                 }
-// });
-//     })
+    function AllTasks() {
+           
+           $("#automplete-2").autocomplete({
+              source: tasks,
+              autoFocus:true
+           });
+        };
 </script>
 </html>
