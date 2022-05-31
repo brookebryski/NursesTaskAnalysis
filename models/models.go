@@ -1,6 +1,8 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type User struct {
 	ID           uint   `gorm:"primaryKey"`
@@ -44,3 +46,5 @@ type TaskEntered struct {
 	TaskID uint `gorm:"not null"`
 	UserID uint `gorm:"not null"`
 }
+
+

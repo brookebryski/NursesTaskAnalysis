@@ -153,13 +153,13 @@
             
     
             $.ajax({
-                url: "http://localhost:3030/tasks",
+                url: "http://localhost:3030",
                 data: tasks,
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
                     console.log(data)
-                    console.log(data[3])
+                    console.log(data[0])
                     tasks.push("brooke")
                     tasks.push("chuck")
                     tasks.push("dustin")
