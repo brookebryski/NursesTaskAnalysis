@@ -96,9 +96,17 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <ul class="list-unstyled mb-0">
-                                    <li><p>Works for Region</p></li>
-                                    <li><p>Works for Facility</p></li>
-                                    <li><p>Employee type</p></li>
+                                    <li ><p style="display: inline">Works for Region</p></li>
+                                    <li ><p style="display: inline">Works for Facility</p></li>
+                                    <li ><p style="display: inline">Employee type</p></li>
+                                    
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li ><p style="display: inline" id="region">Works for Region:</p></li>
+                                    <li ><p style="display: inline" id="facility">Works for Facility:</p></li>
+                                    <li ><p style="display: inline" id="emptype">Employee type:</p></li>
                                     
                                 </ul>
                             </div>
@@ -172,6 +180,8 @@
     nurseName.textContent= sessionStorage.getItem("username") + "!"
 
     tasksEnteredFetch(sessionStorage.getItem("userid"))
+    personalInfo()
+
 
 
 
@@ -184,7 +194,22 @@
     var tasks = [];
     var mapTasks={};
     var depId = 0
+    
+   function personalInfo(){
 
+    if(sessionStorage.getItem("isNurse")=="True"&& sessionStorage.getItem("isSupervisor")=="False"){
+        document.getElementById("emptype").innerHTML ="Nurse"
+    }
+    else if(sessionStorage.getItem("isNurse")=="True"&& sessionStorage.getItem("isSupervisor")=="True"){
+        document.getElementById("emptype").innerHTML ="Nurse/Supervisor"
+    }
+    if(sessionStorage.getItem("isNurse")=="False"){
+        document.getElementById("emptype").innerHTML ="Supervisor"
+    }
+
+
+
+   }
 
     function AllTasks() {
            
