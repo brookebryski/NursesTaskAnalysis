@@ -67,6 +67,7 @@
                 
                
             </div>
+       
             <!-- Side widgets-->
             <div class="col-lg-4">
                 <!-- Search widget-->
@@ -106,8 +107,49 @@
                         </div>
                     </div>
                 </div>
-   
-                
+                 
+            <!--
+                <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <h2>Eastern Region Stats</h2>
+                          <tr>
+                            <th scope="col">Nurses</th>
+                            <th scope="col">Supervisors</th>
+                            <th scope="col">Tasks</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>50</td>
+                            <td>30</td>
+                            <td>120</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                 </div>
+               
+             <div>
+                <table class="table table-bordered">
+                    <thead>
+                        <h2>Eastern Region Stats</h2>
+                      <tr>
+                        <th scope="col">Nurses</th>
+                        <th scope="col">Supervisors</th>
+                        <th scope="col">Tasks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>60</td>
+                        <td>40</td>
+                        <td>120</td>
+                      </tr>
+                    </tbody>
+                  </table>
+             </div>
+            -->
+            <div id="westFacilities"></div>
             </div>
         </div>
     </div>
@@ -144,6 +186,8 @@
     var nurseName= document.getElementById('nursename')
     nurseName.textContent= sessionStorage.getItem("username") + "!"
 
+    westernRegionFacilitiesFetch(2)
+
  })
  
 
@@ -151,7 +195,7 @@
     $(document).ready(function () {
         
             
-    
+
             $.ajax({
                 url: "http://localhost:3030",
                 data: tasks,
@@ -183,5 +227,24 @@
               autoFocus:true
            });
         };
+
+    function  westernRegionFacilitiesFetch(int){
+        $.ajax({
+           url: `http://localhost:3030/getwesternfacilities?id=${int}`,
+           datatype: "json",
+           type: "GET",
+           success: function (data) {
+               var jsonparsed = JSON.parse(data)
+               console.log(jsonparsed)
+               var table = "<table>";
+                        table += `<tr><td><b>Facility Name</b></td>`
+                        for (var i=0; i< jsonparsed.length; i++){
+                        table += `<tr><td>${jsonparsed[i]["Name"]}</td>`;
+                    }
+                    table += "</table>";
+                    document.getElementById("westFacilities").innerHTML = table;
+           } 
+        })
+    }
 </script>
 </html>
