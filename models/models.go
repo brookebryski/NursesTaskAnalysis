@@ -36,9 +36,9 @@ type Department struct {
 }
 
 type Task struct {
-	ID           uint   `json:"id"`   //`gorm:"primaryKey"`
-	Name         string `json:"name"` //`gorm:"type:varchar(50); not null"`
-	DepartmentID uint   `json:"department_id"`
+	ID           uint   `gorm:"primaryKey"`
+	Name         string `gorm:"type:varchar(50); not null"`
+	DepartmentID uint   `gorm:"not null"`
 }
 
 type TaskEntered struct {
@@ -46,5 +46,3 @@ type TaskEntered struct {
 	TaskID uint `gorm:"not null"`
 	UserID uint `gorm:"not null"`
 }
-
-

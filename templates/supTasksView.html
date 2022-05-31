@@ -9,6 +9,8 @@
       <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
       <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     <title>Document</title>
 </head>
 
@@ -62,6 +64,7 @@
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded" src="https://www.conexusmedstaff.com/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNXFoRHc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--393d82bfa1a2ed891e63ab5348460aa52c994634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9VWTI5dFltbHVaVjl2Y0hScGIyNXpld2c2QzNKbGMybDZaVWtpRFRrd01IZzBNREJlQmpvR1JWUTZER2R5WVhacGRIbEpJZ3REWlc1MFpYSUdPd2RVT2dsamNtOXdTU0lRT1RBd2VEUXdNQ3N3S3pBR093ZFUiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--3aa85d99e8f03529886838ace0bec0261b03f59b/shutterstock_1720528870.jpg" alt="..." /></figure>
                     <!-- Post content-->
+                    <div id="westFacilities"></div>
                    
                 </article>
                 
@@ -108,48 +111,6 @@
                     </div>
                 </div>
                  
-            <!--
-                <div>
-                    <table class="table table-bordered">
-                        <thead>
-                            <h2>Eastern Region Stats</h2>
-                          <tr>
-                            <th scope="col">Nurses</th>
-                            <th scope="col">Supervisors</th>
-                            <th scope="col">Tasks</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>50</td>
-                            <td>30</td>
-                            <td>120</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                 </div>
-               
-             <div>
-                <table class="table table-bordered">
-                    <thead>
-                        <h2>Eastern Region Stats</h2>
-                      <tr>
-                        <th scope="col">Nurses</th>
-                        <th scope="col">Supervisors</th>
-                        <th scope="col">Tasks</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>60</td>
-                        <td>40</td>
-                        <td>120</td>
-                      </tr>
-                    </tbody>
-                  </table>
-             </div>
-            -->
-            <div id="westFacilities"></div>
             </div>
         </div>
     </div>
@@ -228,30 +189,7 @@
            });
         };
 
-    
-   // function  westernRegionFacilitiesFetch(int){
-     //   $.ajax({
-       //    url: `http://localhost:3030/getwesternfacilities?id=${int}`,
-      //     datatype: "json",
-       //    type: "GET",
-         //  success: function (data) {
-           //    var jsonparsed = JSON.parse(data)
-             //  console.log(jsonparsed)
-              // var table = "<table>";
-                //        table += `<tr><td><b>Facility Name</b></td>`
-                   //     for (var i=0; i< jsonparsed.length; i++){
-                     //   table += `<tr><td>${jsonparsed[i]["Name"]}</td>`;
-                  //  }
-                  //  table += "</table>";
-                  //  document.getElementById("westFacilities").innerHTML = table;
-          // } 
-        // })
-   // }
-
-    
 function westernRegionFacilitiesFetch(int){
-      
-      
       $.ajax({
                   url: `http://localhost:3030/getwesternfacilities?id=${int}`,
                   datatype: "json",
@@ -261,7 +199,7 @@ function westernRegionFacilitiesFetch(int){
                       console.log(jsonparsed);
                       
                       var table = "<table id='tasktable' class='display compact'>";
-                          table += `<thead><tr><th>Region</th></tr></thead><tbody>`
+                          table += `<thead><tr><th>Facility</th></tr></thead><tbody>`
                       for (var i=0; i< jsonparsed.length; i++){
                           table += `<tr><td>${jsonparsed[i]["Name"]}</td></tr>`;
                       }
