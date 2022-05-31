@@ -108,7 +108,7 @@ func FillTables() {
 	}
 
 	dep1 := models.Department{
-		Name:       "Farmacy",
+		Name:       "Pharmacy",
 		FacilityID: 1,
 	}
 	dep2 := models.Department{
@@ -120,7 +120,7 @@ func FillTables() {
 		FacilityID: 1,
 	}
 	dep4 := models.Department{
-		Name:       "Farmacy",
+		Name:       "Pharmacy",
 		FacilityID: 2,
 	}
 	dep5 := models.Department{
@@ -132,7 +132,7 @@ func FillTables() {
 		FacilityID: 2,
 	}
 	dep7 := models.Department{
-		Name:       "Farmacy",
+		Name:       "Pharmacy",
 		FacilityID: 3,
 	}
 	dep8 := models.Department{
@@ -145,7 +145,7 @@ func FillTables() {
 	}
 
 	dep10 := models.Department{
-		Name:       "Farmacy",
+		Name:       "Pharmacy",
 		FacilityID: 4,
 	}
 	dep11 := models.Department{

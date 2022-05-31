@@ -72,7 +72,7 @@
             <div class="col-lg-4">
                 <!-- Search widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Tasks</div>
+                    <div class="card-header"><b>Enter Task</b></div>
                     <div class="card-body">
                         <div class="dropdown">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,7 +93,7 @@
                 </div>
                 <!-- Categories widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Personal Info</div>
+                    <div class="card-header"><b>Personal Info</b></div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
@@ -110,7 +110,7 @@
                 </div>
                 <!-- Side widget-->
                 <div class="card mb-4">
-                    <div class="card-header">Create Task</div>
+                    <div class="card-header"><b>Create Task</b></div>
                     <div class="card-body">
                         <div class="input-group">
                             <input class="form-control" id="automplete-2" type="text" placeholder="Enter a department..." aria-label="Enter a department..." aria-describedby="button-search" />
@@ -248,9 +248,9 @@ function tasksEnteredFetch(int){
                     var jsonparsed = JSON.parse(data)
                     console.log(jsonparsed)
                     var table = "<table>";
-    
+                        table += `<tr><td><b>Task Name</b></td><td >...............</td><td><b>Date Entered</b></td>`
                         for (var i=0; i< jsonparsed.length; i++){
-                        table += `<tr><td>${jsonparsed[i]["Name"]}</td><td>${jsonparsed[i]["CreatedAt"]}</td></tr>`;
+                        table += `<tr><td>${jsonparsed[i]["Name"]}</td><td>...............</td><td>${jsonparsed[i]["CreatedAt"]}</td></tr>`;
                     }
                     table += "</table>";
                     document.getElementById("demoB").innerHTML = table;
