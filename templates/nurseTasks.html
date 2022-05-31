@@ -9,6 +9,8 @@
       <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
       <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     <title>Document</title>
 </head>
 
@@ -174,7 +176,6 @@
 
 
 
-
     
 
  })
@@ -266,22 +267,34 @@ function tasksEnteredFetch(int){
                 datatype: "json",
                 type: "GET",
                 success: function (data) {
-                    var jsonparsed = JSON.parse(data)
-                    console.log(jsonparsed)
-                    var table = "<table>";
-                        table += `<tr><td><b>Task Name</b></td><td >...............</td><td><b>Date Entered</b></td>`
-                        for (var i=0; i< jsonparsed.length; i++){
-                        table += `<tr><td>${jsonparsed[i]["Name"]}</td><td>...............</td><td>${jsonparsed[i]["CreatedAt"]}</td></tr>`;
+                    var jsonparsed = JSON.parse(data);
+                    console.log(jsonparsed);
+
+                    
+                    var table = "<table id='tasktable' class='display compact'>";
+                        table += `<thead><tr><th>Task Name</th><th>Date Entered</th></tr></thead><tbody>`
+                    for (var i=0; i< jsonparsed.length; i++){
+                        var dateAndTime = jsonparsed[i]["CreatedAt"];
+                        var dateSegment = dateAndTime.split("-");
+                        var yyyy = dateSegment[0];
+                        var mm = dateSegment[1];
+                        var dd = parseInt(dateSegment[2]).toString();
+                        dateAndTime = mm + '/' + dd + '/' + yyyy;
+                        table += `<tr><td>${jsonparsed[i]["Name"]}</td><td>${dateAndTime}</td></tr>`;
                     }
-                    table += "</table>";
+                    table += "</tbody></table>";
                     document.getElementById("demoB").innerHTML = table;
                     
                     
                     
                 }
                 
-            });
-
+            }).then( () => {
+                $('#tasktable').DataTable({
+                    scrollY: '200px',
+                    scrollCollapse: true,
+                })
+            })
   }
 
 
