@@ -228,23 +228,53 @@
            });
         };
 
-    function  westernRegionFacilitiesFetch(int){
-        $.ajax({
-           url: `http://localhost:3030/getwesternfacilities?id=${int}`,
-           datatype: "json",
-           type: "GET",
-           success: function (data) {
-               var jsonparsed = JSON.parse(data)
-               console.log(jsonparsed)
-               var table = "<table>";
-                        table += `<tr><td><b>Facility Name</b></td>`
-                        for (var i=0; i< jsonparsed.length; i++){
-                        table += `<tr><td>${jsonparsed[i]["Name"]}</td>`;
-                    }
-                    table += "</table>";
-                    document.getElementById("westFacilities").innerHTML = table;
-           } 
-        })
+    
+   // function  westernRegionFacilitiesFetch(int){
+     //   $.ajax({
+       //    url: `http://localhost:3030/getwesternfacilities?id=${int}`,
+      //     datatype: "json",
+       //    type: "GET",
+         //  success: function (data) {
+           //    var jsonparsed = JSON.parse(data)
+             //  console.log(jsonparsed)
+              // var table = "<table>";
+                //        table += `<tr><td><b>Facility Name</b></td>`
+                   //     for (var i=0; i< jsonparsed.length; i++){
+                     //   table += `<tr><td>${jsonparsed[i]["Name"]}</td>`;
+                  //  }
+                  //  table += "</table>";
+                  //  document.getElementById("westFacilities").innerHTML = table;
+          // } 
+        // })
+   // }
+
+    
+function westernRegionFacilitiesFetch(int){
+      
+      
+      $.ajax({
+                  url: `http://localhost:3030/getwesternfacilities?id=${int}`,
+                  datatype: "json",
+                  type: "GET",
+                  success: function (data) {
+                      var jsonparsed = JSON.parse(data);
+                      console.log(jsonparsed);
+                      
+                      var table = "<table id='tasktable' class='display compact'>";
+                          table += `<thead><tr><th>Region</th></tr></thead><tbody>`
+                      for (var i=0; i< jsonparsed.length; i++){
+                          table += `<tr><td>${jsonparsed[i]["Name"]}</td></tr>`;
+                      }
+                      table += "</tbody></table>";
+                      document.getElementById("westFacilities").innerHTML = table;       
+                  }
+                  
+              }).then( () => {
+                  $('#tasktable').DataTable({
+                      scrollY: '200px',
+                      scrollCollapse: true,
+                  })
+              })
     }
 </script>
 </html>
