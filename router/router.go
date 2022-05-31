@@ -27,6 +27,7 @@ func Routing() {
 	http.HandleFunc("/suphome", getSupHomeHandler)
 	http.HandleFunc("/logtask", postTask)
 	http.HandleFunc("/getenteredtasks", getEnteredTasks)
+	http.HandleFunc("/createnewtask", createNewTasks)
 	http.ListenAndServe(":3030", nil)
 }
 
@@ -159,6 +160,22 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 
 		w.Write(jsonResp)
 
+	}
+
+}
+
+func createNewTasks(w http.ResponseWriter, r *http.Request) {
+	var t models.Task
+
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	result := dbconnection.DB().Create(&t)
+	if result.Error != nil {
+		panic(err)
 	}
 
 }

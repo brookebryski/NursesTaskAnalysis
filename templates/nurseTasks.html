@@ -26,11 +26,7 @@
     <div id='region' style="display: none;">{{.RegionID}}</div>
     <div id='isLoggedIn' style="display: none;">{{.IsLoggedIn}}</div>
     
-    <!-- <div class = "ui-widget">
-        <p>Please select a task to be entered</p>
-        <label for = "automplete-2">Tasks: </label>
-        <input id = "automplete-2">
-     </div> -->
+    
 
      <!-- Responsive navbar-->
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -75,11 +71,11 @@
                     <div class="card-header"><b>Enter Task</b></div>
                     <div class="card-body">
                         <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="btn createtask btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                               Departments
                             </a>
                           
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <ul class="dropdown-menu" id="createtask" aria-labelledby="dropdownMenuLink">
                               <li><a class="dropdown-item" id="lab"href="#">Lab</a></li>
                               <li><a class="dropdown-item" id="pha" href="#">Pharmacy</a></li>
                               <li><a class="dropdown-item" id="cov"href="#">Covid_Test</a></li>
@@ -87,7 +83,7 @@
                         </div>
                         <div class="input-group">
                             <input class="form-control" id="tasksfield" type="text" placeholder="Search task..." aria-label="Search task..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-enter" type="button">Enter</button>
+                            <button class="btn btn-primary createtaskbtn" id="button-enter" type="button">Enter</button>
                         </div>
                     </div>
                 </div>
@@ -112,13 +108,20 @@
                 <div class="card mb-4">
                     <div class="card-header"><b>Create Task</b></div>
                     <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" id="automplete-2" type="text" placeholder="Enter a department..." aria-label="Enter a department..." aria-describedby="button-search" />
-                            
+                        <div class="dropdown">
+                            <a class="btn newtasks btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                              Departments
+                            </a>
+                          
+                            <ul class="dropdown-menu" id="newtasks"aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item" id="lab"href="#">Lab</a></li>
+                              <li><a class="dropdown-item" id="pha" href="#">Pharmacy</a></li>
+                              <li><a class="dropdown-item" id="cov"href="#">Covid_Test</a></li>
+                            </ul>
                         </div>
                         <div class="input-group">
-                            <input class="form-control" id="automplete-2" type="text" placeholder="Enter new task..." aria-label="Enter new task..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-create" type="button">Create</button>
+                            <input class="form-control" id="newtaskfield" type="text" placeholder="Enter new task..." aria-label="Enter new task..." aria-describedby="button-search" />
+                            <button class="btn btn-primary newtaskbtn" id="button-create" type="button">Create</button>
                         </div>
                     </div>
                 </div>
@@ -179,6 +182,7 @@
 
     var tasks = [];
     var mapTasks={};
+    var depId = 0
 
 
     function AllTasks() {
@@ -192,8 +196,8 @@
     
            
 
-  $(".dropdown-menu li a").click(function(){
-  $(".btn:first-child").html($(this).text()+' <span class="caret"></span>');
+  $("#createtask li a").click(function(){
+  $(".createtask:first-child").html($(this).text()+' <span class="caret"></span>');
   if ($(this).text()=="Lab"){
       tasksFunc(2) 
   }
@@ -217,11 +221,12 @@
                 success: function (data) {
                     var jsonparsed = JSON.parse(data)
                     console.log(jsonparsed)
+                    
                     for (var i=0; i< jsonparsed.length; i++){
-                        tasks.push(jsonparsed[i]["name"])
-                        mapTasks[jsonparsed[i]["name"]]=(jsonparsed[i]["id"])
+                        tasks.push(jsonparsed[i]["Name"])
+                        mapTasks[jsonparsed[i]["Name"]]=(jsonparsed[i]["ID"])
+                        
                     }
-                    console.log(mapTasks)
                     
                     
                 }
@@ -232,6 +237,22 @@
 
 
 
+  }
+
+});
+
+
+
+$("#newtasks li a").click(function(){
+  $(".newtasks:first-child").html($(this).text()+' <span class="caret"></span>');
+  if ($(this).text()=="Lab"){
+      depId= 2
+  }
+  else if($(this).text()=="Pharmacy"){
+        depId= 1
+  }
+  else if($(this).text()=="Covid_Test"){
+    depId= 3
   }
 
 });
@@ -280,7 +301,7 @@ $("#button-enter").click(function(){
                 type: "POST",
                 success: function (data) {
                     location.reload()
-                    alert('Task entered succesfully!');
+                    alert('New task created succesfully!');
                     console.log(data)
                    
                     
@@ -288,6 +309,30 @@ $("#button-enter").click(function(){
                 
             });
     
+
+})
+
+$("#button-create").click(function(){
+    
+
+    $.ajax({
+               url: "http://localhost:3030/createnewtask",
+               data: `{
+        "Name": "${$("#newtaskfield").val()}",
+        "DepartmentID": ${depId}
+    }`,
+               datatype: "json",
+               type: "POST",
+               success: function (data) {
+                   location.reload()
+                   alert('Task entered succesfully!');
+                   console.log(data)
+                  
+                   
+               }
+               
+           });
+   
 
 })
 </script>
