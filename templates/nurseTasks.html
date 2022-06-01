@@ -12,22 +12,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     <title>Document</title>
+    <script>
+
+    </script>
 </head>
 
-<style>
 
-</style>
-
-<body>
-
-    <div id='name' style="display: none;">{{.Name}}</div>
-    <div id='id' style="display: none;">{{.ID}}</div>
-    <div id='isNurse' style="display: none;">{{.IsNurse}}</div>
-    <div id='isSupervisor' style="display: none;">{{.IsSupervisor}}</div>
-    <div id='facility' style="display: none;">{{.FacilityID}}</div>
-    <div id='region' style="display: none;">{{.RegionID}}</div>
-    <div id='isLoggedIn' style="display: none;">{{.IsLoggedIn}}</div>
-    
+<body>    
     <!-- <div class = "ui-widget">
         <p>Please select a task to be entered</p>
         <label for = "automplete-2">Tasks: </label>
@@ -142,6 +133,15 @@
 <script>
  $(document).ready(function () {
 
+    var tokenName = "{{.Name}}";
+    var tokenUserID = "{{.ID}}";
+    var tokenIsNurse = "{{.IsNurse}}";
+    var tokenIsSupervisor = "{{.IsSupervisor}}";
+    var tokenFacility = "{{.FacilityID}}";
+    var tokenRegion = "{{.RegionID}}";
+    var tokenIsLoggedIn = "{{.IsLoggedIn}}";
+
+
     date = new Date();
         year = date.getFullYear();
         month = date.getMonth() + 1;
@@ -149,13 +149,13 @@
         document.getElementById("datenow").innerHTML = month + "/" + day + "/" + year;
 
     // values stored in memory. We can use them anywhere and as long as the session is on.
-    sessionStorage.setItem('username',document.getElementById('name').innerText)
-    sessionStorage.setItem('userid',document.getElementById('id').innerText)
-    sessionStorage.setItem('isNurse',document.getElementById('isNurse').innerText)
-    sessionStorage.setItem('isSupervisor',document.getElementById('isSupervisor').innerText)
-    sessionStorage.setItem('facilityId',document.getElementById('facility').innerText)
-    sessionStorage.setItem('regionId',document.getElementById('region').innerText)
-    sessionStorage.setItem('isLoggedIn',document.getElementById('isLoggedIn').innerText)
+    sessionStorage.setItem('username',tokenName)
+    sessionStorage.setItem('userid',tokenUserID)
+    sessionStorage.setItem('isNurse',tokenIsNurse)
+    sessionStorage.setItem('isSupervisor',tokenIsSupervisor)
+    sessionStorage.setItem('facilityId',tokenFacility)
+    sessionStorage.setItem('regionId',tokenRegion)
+    sessionStorage.setItem('isLoggedIn',tokenIsLoggedIn)
     console.log(sessionStorage.getItem("username"))
     console.log(sessionStorage.getItem("userid"))
     console.log(sessionStorage.getItem("isNurse"))
