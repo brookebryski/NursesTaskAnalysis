@@ -2,8 +2,8 @@ module NurseTasks
 
 go 1.18
 
-
 require (
+	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/jinzhu/gorm v1.9.16
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
 	gorm.io/driver/mysql v1.3.3
@@ -12,6 +12,7 @@ require (
 )
 
 require (
+	github.com/andybalholm/cascadia v1.1.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.12.1 // indirect
@@ -23,5 +24,6 @@ require (
 	github.com/jackc/pgx/v4 v4.16.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
+	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
