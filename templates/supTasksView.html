@@ -73,7 +73,7 @@
                             <li><a class="dropdown-item" id="2" href="#">West</a></li>
                           </ul>
                     </div>
-                    <div id="westFacilities"></div>
+                    <div id="facilitiesByRegion"></div>
                    
                 </article>
                 
@@ -156,7 +156,7 @@
     var nurseName= document.getElementById('nursename')
     nurseName.textContent= sessionStorage.getItem("username") + "!"
 
-    westernRegionFacilitiesFetch(int)
+    fetchFacilitiesByRegion(int)
 
  })
  
@@ -201,16 +201,15 @@
   $("#filterregion li a").click(function(){
   $(".filterregion:first-child").html($(this).text()+' <span class="caret"></span>');
   if ($(this).text()=="East"){
-    westernRegionFacilitiesFetch(1)
-
+    fetchFacilitiesByRegion(1)
   }
   else if($(this).text()=="West"){
-   westernRegionFacilitiesFetch(2)
+    fetchFacilitiesByRegion(2)
   }
   
-function westernRegionFacilitiesFetch(int){
+function fetchFacilitiesByRegion(int){
       $.ajax({
-                  url: `http://localhost:3030/getwesternfacilities?id=${int}`,
+                  url: `http://localhost:3030/getfacilitiesbyregion?id=${int}`,
                   datatype: "json",
                   type: "GET",
                   success: function (data) {
@@ -222,7 +221,7 @@ function westernRegionFacilitiesFetch(int){
                           table += `<tr><td>${jsonparsed[i]["Name"]}</td></tr>`;
                       }
                       table += "</tbody></table>";
-                      document.getElementById("westFacilities").innerHTML = table;       
+                      document.getElementById("facilitiesByRegion").innerHTML = table;       
                   }
                   
               }).then( () => {

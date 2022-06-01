@@ -27,7 +27,7 @@ func Routing() {
 	http.HandleFunc("/suphome", getSupHomeHandler)
 	http.HandleFunc("/logtask", postTask)
 	http.HandleFunc("/getenteredtasks", getEnteredTasks)
-	http.HandleFunc("/getwesternfacilities", getWesternFacilities)
+	http.HandleFunc("/getfacilitiesbyregion", getFacilitiesByRegion)
 	http.HandleFunc("/createnewtask", createNewTasks)
 	http.ListenAndServe(":3030", nil)
 }
@@ -165,7 +165,7 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getWesternFacilities(w http.ResponseWriter, r *http.Request) {
+func getFacilitiesByRegion(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
