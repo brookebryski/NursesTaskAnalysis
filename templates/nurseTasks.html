@@ -73,9 +73,9 @@
                             </a>
                           
                             <ul class="dropdown-menu" id="createtask" aria-labelledby="dropdownMenuLink">
-                              <li><a class="dropdown-item" id="lab"href="#">Lab</a></li>
-                              <li><a class="dropdown-item" id="pha" href="#">Pharmacy</a></li>
-                              <li><a class="dropdown-item" id="cov"href="#">Covid_Test</a></li>
+                              <li><a class="dropdown-item"  data-custom-value=2 id="lab"href="#">Lab</a></li>
+                              <li><a class="dropdown-item"  data-custom-value=1 id="pha" href="#">Pharmacy</a></li>
+                              <li><a class="dropdown-item"  data-custom-value=3 id="cov"href="#">Covid_Test</a></li>
                             </ul>
                         </div>
                         <div class="input-group">
@@ -245,13 +245,13 @@
   $("#createtask li a").click(function(){
   $(".createtask:first-child").html($(this).text()+' <span class="caret"></span>');
   if ($(this).text()=="Lab"){
-      tasksFunc(2) 
+      tasksFunc($("#lab").data("custom-value")) 
   }
   else if($(this).text()=="Pharmacy"){
-    tasksFunc(1)
+    tasksFunc($("#pha").data("custom-value"))
   }
   else if($(this).text()=="Covid_Test"){
-    tasksFunc(3)
+    tasksFunc($("#cov").data("custom-value"))
   }
 
   function tasksFunc(int){
