@@ -27,7 +27,8 @@ func Routing() {
 	http.HandleFunc("/suphome", getSupHomeHandler)
 	http.HandleFunc("/logtask", postTask)
 	http.HandleFunc("/getenteredtasks", getEnteredTasks)
-	http.HandleFunc("/getfacilitiesbyregion", getFacilitiesByRegion)
+	http.HandleFunc("/getfacilitiesdropdowndatabyregion", getFacilitiesDropdownDataByRegion)
+	http.HandleFunc("/getfacilitiestabledatabyregion", getFacilitiesTableDataByRegion)
 	http.HandleFunc("/createnewtask", createNewTasks)
 	http.ListenAndServe(":3030", nil)
 }
@@ -165,7 +166,30 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getFacilitiesByRegion(w http.ResponseWriter, r *http.Request) {
+func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request){
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	type Facility struct {
+		ID         uint   `gorm:"not null"`
+		RegionID   uint   `gorm:"not null"`
+		Name       string `gorm:"not null"`
+	}
+	var facilities []Facility
+	id := r.URL.Query().Get("id")
+	result := dbconnection.DB().Select("facilities.id,facilities.region_id,facilities.name").Joins("JOIN regions on facilities.region_id=regions.id").Find(&facilities, "region_id = ?", id)
+	if result.Error == nil {
+		jsonResp, err := json.Marshal(facilities)
+		if err != nil {
+			panic(err)
+		}
+
+		w.Write(jsonResp)
+
+	}
+
+}
+
+func getFacilitiesTableDataByRegion(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
