@@ -27,6 +27,8 @@ func Routing() {
 	http.HandleFunc("/suphome", getSupHomeHandler)
 	http.HandleFunc("/logtask", postTask)
 	http.HandleFunc("/getenteredtasks", getEnteredTasks)
+	http.HandleFunc("/createnewtask", createNewTasks)
+	http.HandleFunc("/getregionandfacility", getregionandfacilityHandler)
 	http.ListenAndServe(":3030", nil)
 }
 
@@ -160,5 +162,60 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 		w.Write(jsonResp)
 
 	}
+
+}
+
+func createNewTasks(w http.ResponseWriter, r *http.Request) {
+	var t models.Task
+
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	result := dbconnection.DB().Create(&t)
+	if result.Error != nil {
+		panic(err)
+	}
+
+}
+
+func getregionandfacilityHandler(w http.ResponseWriter, r *http.Request) {
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	type Region struct {
+		Name string `gorm:"not null"`
+	}
+	type Facility struct {
+		Name string `gorm:"not null"`
+	}
+	type RegionFacility struct {
+		RName string `gorm:"not null"`
+		FName string `gorm:"not null"`
+	}
+	var region Region
+	var facility Facility
+	var regionFacility RegionFacility
+	fid := r.URL.Query().Get("fid")
+	rid := r.URL.Query().Get("rid")
+
+	result1 := dbconnection.DB().Select("regions.name").Find(&region, "regions.id = ?", rid)
+	if result1.Error == nil {
+
+		regionFacility.RName = region.Name
+	}
+	result2 := dbconnection.DB().Select("facilities.name").Find(&facility, "facilities.id = ?", fid)
+	if result2.Error == nil {
+
+		regionFacility.FName = facility.Name
+
+	}
+	jsonResp, err := json.Marshal(regionFacility)
+	if err != nil {
+		panic(err)
+	}
+	w.Write(jsonResp)
 
 }
