@@ -25,7 +25,7 @@ func Routing() {
 	http.HandleFunc("/tasks", tasksHandler)
 	http.HandleFunc("/supervisorlogin", getSupFormHandler)
 	http.HandleFunc("/suphome", getSupHomeHandler)
-	http.HandleFunc("/logtask", postTask)
+	http.HandleFunc("/", postTask)
 	http.HandleFunc("/getenteredtasks", getEnteredTasks)
 	http.HandleFunc("/getfacilitiesdropdowndatabyregion", getFacilitiesDropdownDataByRegion)
 	http.HandleFunc("/getfacilitiestabledatabyregion", getFacilitiesTableDataByRegion)
@@ -66,7 +66,7 @@ func loginauthFormHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func tasksHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	var tasks []models.Task
 	id := r.URL.Query().Get("id")
@@ -126,6 +126,7 @@ func getSupHomeHandler(w http.ResponseWriter, r *http.Request) {
 
 func postTask(w http.ResponseWriter, r *http.Request) {
 	var t models.TaskEntered
+	w.WriteHeader(http.StatusCreated)
 
 	err := json.NewDecoder(r.Body).Decode(&t)
 	if err != nil {
@@ -142,7 +143,7 @@ func postTask(w http.ResponseWriter, r *http.Request) {
 
 func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	type Task struct {
 		CreatedAt    time.Time
@@ -160,7 +161,6 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err)
 		}
-
 		w.Write(jsonResp)
 
 	}
@@ -168,7 +168,7 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request){
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	type Facility struct {
 		ID         uint   `gorm:"not null"`
@@ -215,7 +215,7 @@ func getFacilitiesTableDataByRegion(w http.ResponseWriter, r *http.Request) {
 	
 func createNewTasks(w http.ResponseWriter, r *http.Request) {
 	var t models.Task
-
+	w.WriteHeader(http.StatusCreated)
 	err := json.NewDecoder(r.Body).Decode(&t)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -231,7 +231,7 @@ func createNewTasks(w http.ResponseWriter, r *http.Request) {
 
 func getregionandfacilityHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	type Region struct {
 		Name string `gorm:"not null"`
