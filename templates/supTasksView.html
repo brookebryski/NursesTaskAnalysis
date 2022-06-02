@@ -60,7 +60,7 @@
                     <figure class="mb-4"><img class="img-fluid rounded" src="https://www.conexusmedstaff.com/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNXFoRHc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--393d82bfa1a2ed891e63ab5348460aa52c994634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9VWTI5dFltbHVaVjl2Y0hScGIyNXpld2c2QzNKbGMybDZaVWtpRFRrd01IZzBNREJlQmpvR1JWUTZER2R5WVhacGRIbEpJZ3REWlc1MFpYSUdPd2RVT2dsamNtOXdTU0lRT1RBd2VEUXdNQ3N3S3pBR093ZFUiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--3aa85d99e8f03529886838ace0bec0261b03f59b/shutterstock_1720528870.jpg" alt="..." /></figure>
                     <!-- Post content-->
                     <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="regionsMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn filterregion btn-secondary dropdown-toggle" href="#" role="button" id="regionsMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             Regions
                           </a>
                           <ul class="dropdown-menu" id="filterregion"aria-labelledby="dropdownMenuLink">
@@ -69,7 +69,7 @@
                           </ul>
                     </div>
                     <div class="dropdown" style="visibility:hidden" id="filteredFacilitiesDiv">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="facilitiesMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn filteredFacilities btn-secondary dropdown-toggle" href="#" role="button" id="facilitiesMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             Facilities
                           </a>
                           <ul class="dropdown-menu" id="filteredFacilities" aria-labelledby="dropdownMenuLink">
@@ -244,7 +244,10 @@ function fetchFacilitiesDropdownDataByRegion(int){
                       for (var i=0; i< jsonparsed.length; i++){
                           dropdown += `<li><a class="dropdown-item">${jsonparsed[i]["Name"]}</a></li>`;
                       }
-                      document.getElementById("filteredFacilities").innerHTML = dropdown;       
+                      document.getElementById("filteredFacilities").innerHTML = dropdown;     
+                      $("#filteredFacilities li a").click(function(){
+                     $(".filteredFacilities:first-child").html($(this).text()+' <span class="caret"></span>')
+                      })  
                   }
                   
               })

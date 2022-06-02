@@ -1,46 +1,127 @@
-package routePack
+package router
 
 import (
-	//"context"
-	"io"
+	"NursesTaskAnalysis/dbconnection"
+	"net/http"
+	"net/http/httptest"
+	"os"
 	"testing"
-
-	"github.com/PuerkitoBio/goquery"
 )
 
-// func TestGetNurseFormHandler(t *testing.T) {
-// 	response := tpl.ExecuteTemplate(w, "nurseLogin.html", nil)
-// 	assert.NotNil(t, response, "The `response` should not be `nil`")
+func TestMain(m *testing.M) {
+
+	setupTest()
+
+	code := m.Run()
+
+	// teardown
+
+	os.Exit(code)
+
+}
+
+func setupTest() {
+
+	driver := dbconnection.Postgres
+
+	dbconnection.New(driver)
+
+}
+
+func TestGetEnteredTasks(t *testing.T) {
+
+	subTests := []struct {
+		name string
+
+		//body        // whatever obj you need
+
+		expectedCode int
+	}{
+
+		{
+
+			name: "SuccessfulRequest",
+
+			expectedCode: 200,
+		},
+	}
+
+	for _, subTest := range subTests {
+
+		t.Run(subTest.name, func(t *testing.T) {
+
+			// bodyJson, _ := json.Marshal(subTest.body)
+
+			// body := bytes.NewReader(credentials)
+
+			w := httptest.NewRecorder()
+
+			req, _ := http.NewRequest(http.MethodGet, "/getenteredtasks", nil) // body if exists
+
+			getEnteredTasks(w, req)
+
+			// res := w.Result() if you need data
+
+			if subTest.expectedCode != w.Code {
+
+				t.Errorf("expected status code %v, got status code %v", subTest.expectedCode, w.Code)
+
+			}
+
+		})
+
+	}
+
+}
+
+// package routePack
+
+// import (
+// 	"testing"
+// 	"net/http/httptest"
+// 	"NurseTasks/dbconnection"
+
+// )
+
+// func TestMain(m *testing.M) {
+// 	setupTest()
+// 	code := m.Run()
+// 	// teardown
+// 	os.Exit(code)
+//   }
+
+// func setupTest() {
+// 	driver := dbconnection.Postgres
+// 	dbconnection.New(driver)
 // }
 
-func TestGetNurseFormHandler(t *testing.T) {
-	r, _ := io.Pipe()
-	_, err := goquery.NewDocumentFromReader(r)
-	if err != nil {
-		t.Fatalf("failed to read template: %v", err)
-	}
-}
+// type Tests struct {
+// 	name string
+// 	server *httptest.Server
+// 	response *Task
+// 	expectedError error
+// }
 
-func TestGetSupFormHandler(t *testing.T) {
-	r, _ := io.Pipe()
-	_, err := goquery.NewDocumentFromReader(r)
-	if err != nil {
-		t.Fatalf("failed to read template: %v", err)
-	}
-}
+// func TestGetEnteredTasks(t *testing.T) {
 
-func TestGetSupHomeHandler(t *testing.T) {
-	r, _ := io.Pipe()
-	_, err := goquery.NewDocumentFromReader(r)
-	if err != nil {
-		t.Fatalf("failed to read template: %v", err)
-	}
-}
+// 	tests := []Tests {
+// 		{
+// 		name: "get-tasks",
+// 		server: httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Response){
+// 			w.WriteHeader(http.StatusOK)
+// 			w.Write([]byte(`{ "Name": "Covid test", "DepartmentID": 1  }`))
+// 		})),
+// 		response: &Task{
+// 			Name: "Covid test",
+// 			DepartmentID: 1,
+// 		},
+// 		expectedError: nill,
+// 		},
+// 	}
 
-func TestGetNurseTasks(t *testing.T) {
-	r, _ := io.Pipe()
-	_, err := goquery.NewDocumentFromReader(r)
-	if err != nil {
-		t.Fatalf("failed to read template: %v", err)
-	}
-}
+// 	for _, test := range tests {
+// 		t.Run(test.name, func(t *testing.T){
+// 			defer test.server
+// 		})
+// 	}
+// }
