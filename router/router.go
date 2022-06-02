@@ -31,6 +31,7 @@ func Routing() {
 	http.HandleFunc("/getfacilitiestabledatabyregion", getFacilitiesTableDataByRegion)
 	http.HandleFunc("/createnewtask", createNewTasks)
 	http.HandleFunc("/getregionandfacility", getregionandfacilityHandler)
+	http.HandleFunc("/getnursesanddepartments", getDepartmentsAndNursesDropdownDataByFacility)
 	http.ListenAndServe(":3030", nil)
 }
 
@@ -167,13 +168,13 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request){
+func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	type Facility struct {
-		ID         uint   `gorm:"not null"`
-		RegionID   uint   `gorm:"not null"`
-		Name       string `gorm:"not null"`
+		ID       uint   `gorm:"not null"`
+		RegionID uint   `gorm:"not null"`
+		Name     string `gorm:"not null"`
 	}
 	var facilities []Facility
 	id := r.URL.Query().Get("id")
@@ -187,6 +188,46 @@ func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request){
 		w.Write(jsonResp)
 
 	}
+
+}
+func getDepartmentsAndNursesDropdownDataByFacility(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
+	type User struct {
+		Id   uint
+		Name string
+	}
+	type Department struct {
+		Id   uint
+		Name string
+	}
+	type UsersDepartments struct {
+		Nurses      []User
+		Departments []Department
+	}
+	var users []User
+	var departments []Department
+	var usersdepartments UsersDepartments
+
+	facilityid := r.URL.Query().Get("id")
+	result := dbconnection.DB().Select("id,name").Find(&users, "facility_id = ?", facilityid)
+	if result.Error == nil {
+		usersdepartments.Nurses = users
+
+	}
+	result1 := dbconnection.DB().Select("id,name").Find(&departments, "facility_id = ?", facilityid)
+	if result1.Error == nil {
+		usersdepartments.Departments = departments
+
+	}
+
+	jsonResp, err := json.Marshal(usersdepartments)
+	if err != nil {
+		panic(err)
+	}
+
+	w.Write(jsonResp)
 
 }
 
@@ -195,9 +236,9 @@ func getFacilitiesTableDataByRegion(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	type Facility struct {
-		ID         uint   `gorm:"not null"`
-		RegionID   uint   `gorm:"not null"`
-		Name       string `gorm:"not null"`
+		ID       uint   `gorm:"not null"`
+		RegionID uint   `gorm:"not null"`
+		Name     string `gorm:"not null"`
 	}
 	var facilities []Facility
 	id := r.URL.Query().Get("id")
@@ -212,7 +253,7 @@ func getFacilitiesTableDataByRegion(w http.ResponseWriter, r *http.Request) {
 
 	}
 }
-	
+
 func createNewTasks(w http.ResponseWriter, r *http.Request) {
 	var t models.Task
 

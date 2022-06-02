@@ -60,7 +60,7 @@
                     <figure class="mb-4"><img class="img-fluid rounded" src="https://www.conexusmedstaff.com/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNXFoRHc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--393d82bfa1a2ed891e63ab5348460aa52c994634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9VWTI5dFltbHVaVjl2Y0hScGIyNXpld2c2QzNKbGMybDZaVWtpRFRrd01IZzBNREJlQmpvR1JWUTZER2R5WVhacGRIbEpJZ3REWlc1MFpYSUdPd2RVT2dsamNtOXdTU0lRT1RBd2VEUXdNQ3N3S3pBR093ZFUiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--3aa85d99e8f03529886838ace0bec0261b03f59b/shutterstock_1720528870.jpg" alt="..." /></figure>
                     <!-- Post content-->
                     <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="regionsMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn filterregion btn-secondary dropdown-toggle" href="#" role="button" id="regionsMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             Regions
                           </a>
                           <ul class="dropdown-menu" id="filterregion"aria-labelledby="dropdownMenuLink">
@@ -69,16 +69,34 @@
                           </ul>
                     </div>
                     <div class="dropdown" style="visibility:hidden" id="filteredFacilitiesDiv">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="facilitiesMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn filteredFacilities btn-secondary dropdown-toggle" href="#" role="button" id="facilitiesMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             Facilities
                           </a>
                           <ul class="dropdown-menu" id="filteredFacilities" aria-labelledby="dropdownMenuLink">
 
                           </ul>
+                    </div>
+                    <div class="dropdown" style="visibility:hidden" id="filteredNursesDiv">
+                        <a class="btn filteredNurses btn-secondary dropdown-toggle" href="#" role="button" id="nursesMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            Nurses
+                          </a>
+                          <ul class="dropdown-menu" id="filteredNurses" aria-labelledby="dropdownMenuLink">
+
+                          </ul>
+                    </div>      
+                    <div class="dropdown" style="visibility:hidden" id="filteredDepartmentsDiv">
+                        <a class="btn filteredDepartments btn-secondary dropdown-toggle" href="#" role="button" id="departmentsMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            Departments
+                          </a>
+                          <ul class="dropdown-menu" id="filteredDepartments" aria-labelledby="dropdownMenuLink">
+
+                          </ul>
+                    </div>  
                     <div id="facilitiesDropdownByRegion"></div>
-                     </div>
+                     
                     </br>
                     <div id="facilitiesDataTableByRegion"></div>
+                    
                    
                 </article>
                 
@@ -183,6 +201,7 @@
     nurseName.textContent= sessionStorage.getItem("username") + "!"
 
     personalInfo()
+    
 
  })
  
@@ -231,7 +250,7 @@ $.ajax({
 })
 
 function fetchFacilitiesDropdownDataByRegion(int){
-    console.log(`http://localhost:3030/getfacilitiesdropdowndatabyregion?id=${int}`)
+    
     $.ajax({
                   url: `http://localhost:3030/getfacilitiesdropdowndatabyregion?id=${int}`,
                   datatype: "json",
@@ -239,44 +258,80 @@ function fetchFacilitiesDropdownDataByRegion(int){
                   success: function (data) {
                       var jsonparsed = JSON.parse(data);
                       $("#filteredFacilitiesDiv").css('visibility', 'visible')
+                      $("#filteredNursesDiv").css('visibility', 'hidden')
+                      $("#filteredDepartmentsDiv").css('visibility', 'hidden')
                       console.log(jsonparsed);
                      var dropdown = ""
                       for (var i=0; i< jsonparsed.length; i++){
-                          dropdown += `<li><a class="dropdown-item">${jsonparsed[i]["Name"]}</a></li>`;
+                          dropdown += `<li><a id=${"facility"+jsonparsed[i]["ID"]} data-custom-value=${jsonparsed[i]["ID"]} class="dropdown-item" href="#">${jsonparsed[i]["Name"]}</a></li>`;
                       }
-                      document.getElementById("filteredFacilities").innerHTML = dropdown;       
+                      document.getElementById("filteredFacilities").innerHTML = dropdown;  
+                      $("#filteredFacilities li a").click(function(){
+                      $(".filteredFacilities:first-child").html($(this).text()+' <span class="caret"></span>')
+                      })
+
+                     
+                      
+
                   }
                   
               })
             }
     
 
-// pass in region id to populate data table with facilities
-  $("#filterregion li a").click(function(){
-  $(".filterregion:first-child").html($(this).text()+' <span class="caret"></span>');
-  if ($(this).text()=="East"){
-    fetchFacilitiesTableDataByRegion(1)
-  }
-  else if($(this).text()=="West"){
-    fetchFacilitiesTableDataByRegion(2)
-  }
+  // pass in facility id to populate dropdowns Nurses and Departments
+  $("#filteredFacilities").on("click","li a",function(){
+        $(".filteredFacilities:first-child").html($(this).text()+' <span class="caret"></span>')
+        fetchNursesAndDepartmentsDropdownDataByFacility(parseInt($(this).data("custom-value")))
+        
+  
+  
+})
 
-  // populate data table with facilities 
-function fetchFacilitiesTableDataByRegion(int){
-      $.ajax({
-                  url: `http://localhost:3030/getfacilitiestabledatabyregion?id=${int}`,
+function fetchNursesAndDepartmentsDropdownDataByFacility(int){
+    
+    $.ajax({
+                  url: `http://localhost:3030/getnursesanddepartments?id=${int}`,
                   datatype: "json",
                   type: "GET",
                   success: function (data) {
                       var jsonparsed = JSON.parse(data);
                       console.log(jsonparsed);
-                      var table = "<table id='tasktable' class='display compact'>";
-                          table += `<thead><tr><th>Facility</th></tr></thead><tbody>`
+                      console.log(jsonparsed["Departments"][1]["Id"]);
+                      
+                      $("#filteredNursesDiv").css('visibility', 'visible')
+                      $("#filteredDepartmentsDiv").css('visibility', 'visible')
+                      
+                     var dropdownnurses = ""
+                     var dropdowndepartments = ""
+                      for (var i=0; i< jsonparsed["Nurses"].length; i++){
+                        dropdownnurses += `<li><a id=${"nurse"+jsonparsed["Nurses"][i]["Id"]} data-custom-value=${jsonparsed["Nurses"][i]["Id"]} class="dropdown-item" href="#">${jsonparsed["Nurses"][i]["Name"]}</a></li>`;
+                       
+                      }
+                      for (var i=0; i< jsonparsed["Departments"].length; i++){
+                        
+                        dropdowndepartments += `<li><a id=${"department"+jsonparsed["Departments"][i]["Id"]} data-custom-value=${jsonparsed["Departments"][i]["Id"]} class="dropdown-item" href="#">${jsonparsed["Departments"][i]["Name"]}</a></li>`;
+                      }
+                      document.getElementById("filteredNurses").innerHTML = dropdownnurses;  
+                      document.getElementById("filteredDepartments").innerHTML = dropdowndepartments;  
+                      if (jsonparsed["Nurses"].length !=0){
+                        $("#filteredNurses li a").click(function(){
+                      $(".filteredNurses:first-child").html($(this).text()+' <span class="caret"></span>')
+                      })
+                      }
+                      if (jsonparsed["Departments"].length !=0){
+                      $("#filteredDepartments li a").click(function(){
+                      $(".filteredDepartments:first-child").html($(this).text()+' <span class="caret"></span>')
+                      })
+                    }
+                    var table = "<table id='tasktable' class='display compact'>";
+                          table += `<thead><tr><th>Facility</th><th>Total Employeed Nurses</th><th>Total Employeed Supervisors</th></tr></thead><tbody>`
                       for (var i=0; i< jsonparsed.length; i++){
-                          table += `<tr><td>${jsonparsed[i]["Name"]}</td></tr>`;
+                          table += `<tr><td>${jsonparsed["Nurses"][i]["Name"]}</td><td>${jsonparsed["Nurses"][i]["Id"]}</td><td>${jsonparsed["Nurses"][i]["Id"]}</td></tr>`;
                       }
                       table += "</tbody></table>";
-                      document.getElementById("facilitiesDataTableByRegion").innerHTML = table;       
+                      document.getElementById("facilitiesDataTableByRegion").innerHTML = table;  
+
                   }
                   
               }).then( () => {
@@ -286,6 +341,42 @@ function fetchFacilitiesTableDataByRegion(int){
                   })
               })
             }
-        })
+
+// pass in region id to populate data table with facilities
+//   $("#filterregion li a").click(function(){
+//   $(".filterregion:first-child").html($(this).text()+' <span class="caret"></span>');
+//   if ($(this).text()=="East"){
+//     fetchFacilitiesTableDataByRegion(1)
+//   }
+//   else if($(this).text()=="West"){
+//     fetchFacilitiesTableDataByRegion(2)
+//   }
+
+//   // populate data table with facilities 
+// function fetchFacilitiesTableDataByRegion(int){
+//       $.ajax({
+//                   url: `http://localhost:3030/getfacilitiestabledatabyregion?id=${int}`,
+//                   datatype: "json",
+//                   type: "GET",
+//                   success: function (data) {
+//                       var jsonparsed = JSON.parse(data);
+//                       console.log(jsonparsed);
+//                       var table = "<table id='tasktable' class='display compact'>";
+//                           table += `<thead><tr><th>Facility</th><th>Total Employeed Nurses</th><th>Total Employeed Supervisors</th></tr></thead><tbody>`
+//                       for (var i=0; i< jsonparsed.length; i++){
+//                           table += `<tr><td>${jsonparsed[i]["Name"]}</td><td>${jsonparsed[i]["NCount"]}</td><td>${jsonparsed[i]["SCount"]}</td></tr>`;
+//                       }
+//                       table += "</tbody></table>";
+//                       document.getElementById("facilitiesDataTableByRegion").innerHTML = table;       
+//                   }
+                  
+//               }).then( () => {
+//                   $('#tasktable').DataTable({
+//                       scrollY: '200px',
+//                       scrollCollapse: true,
+//                   })
+//               })
+//             }
+       // })
 </script>
 </html>
