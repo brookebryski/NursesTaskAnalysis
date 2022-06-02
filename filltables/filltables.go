@@ -1,8 +1,8 @@
 package filltables
 
 import (
-	"NurseTasks/dbconnection"
-	"NurseTasks/models"
+	"NursesTaskAnalysis/dbconnection"
+	"NursesTaskAnalysis/models"
 
 	"golang.org/x/crypto/bcrypt"
 )
