@@ -1,8 +1,8 @@
-package routePack
+package router
 
 import (
-	"NurseTasks/dbconnection"
-	"NurseTasks/models"
+	"NursesTaskAnalysis/dbconnection"
+	"NursesTaskAnalysis/models"
 	"encoding/json"
 	"net/http"
 	"text/template"
