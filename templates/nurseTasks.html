@@ -145,9 +145,11 @@
    
 
 </body>
+<!-- Scripts for nurses tasks -->
 <script>
  $(document).ready(function () {
 
+    //grab token information for user who is being logged in
     var tokenName = "{{.Name}}";
     var tokenUserID = "{{.ID}}";
     var tokenIsNurse = "{{.IsNurse}}";
@@ -156,7 +158,7 @@
     var tokenRegion = "{{.RegionID}}";
     var tokenIsLoggedIn = "{{.IsLoggedIn}}";
 
-
+    //convert date-time string to just a date format
     date = new Date();
         year = date.getFullYear();
         month = date.getMonth() + 1;
@@ -200,7 +202,7 @@
     var depId = 0
     
    function personalInfo(){
-
+    //sets a value for personal info telling if user is a nurse, supervisor, or both
     if(sessionStorage.getItem("isNurse")=="True"&& sessionStorage.getItem("isSupervisor")=="False"){
         document.getElementById("emptype").innerHTML ="Nurse"
     }
@@ -211,6 +213,7 @@
         document.getElementById("emptype").innerHTML ="Supervisor"
     }
 
+    //applies context to router method giving facilityID and RegionID associated to the user for personal information display
     $.ajax({
                 url: `http://localhost:3030/getregionandfacility?fid=${sessionStorage.getItem("facilityId")}&rid=${sessionStorage.getItem("regionId")}`,
                 datatype: "json",
