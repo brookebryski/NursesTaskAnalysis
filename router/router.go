@@ -212,7 +212,10 @@ func getDepartmentsAndNursesDropdownDataByFacility(w http.ResponseWriter, r *htt
 	var usersdepartments UsersDepartments
 
 	facilityid := r.URL.Query().Get("id")
-	result := dbconnection.DB().Select("id,name").Find(&users, "facility_id = ?", facilityid)
+	regionid := r.URL.Query().Get("rid")
+
+	result := dbconnection.DB().Select("id,name").Where("facility_id = ? AND is_nurse = ? AND region_id=?", facilityid, "True", regionid).Find(&users)
+
 	if result.Error == nil {
 		usersdepartments.Nurses = users
 
@@ -324,10 +327,10 @@ func getNursesTasksAndStatsDataByNurseId(w http.ResponseWriter, r *http.Request)
 		DName        string
 	}
 	type Stats struct {
-		TotalTasks         uint
-		DepMostTasks       string
-		DepMostTasksAmount uint
-		DayWithMoreTasks   time.Time
+		TotalTasks             uint
+		DepMostTasks           string
+		DepMostTasksAmount     uint
+		DayWithMoreTasks       time.Time
 		DayWithMoreTasksAmount uint
 	}
 
@@ -361,15 +364,10 @@ func getNursesTasksAndStatsDataByNurseId(w http.ResponseWriter, r *http.Request)
 	result2 := dbconnection.DB().Table("(?) as tt", subquery2).Select("tt.d_name as dep_most_tasks, tt.count as dep_most_tasks_amount")
 	result2.Group("tt.d_name").Group("tt.count").Order("tt.count desc").Limit(1).Find(&stats)
 
-	// .Select("task_entereds.created_at,task_entereds.task_id,task_entereds.user_id,tasks.*,departments.name as d_name")
-	// result.Joins("left JOIN task_entereds on tasks.id=task_entereds.task_id")
-	// result.Joins("left JOIN departments on tasks.department_id=departments.id").Where("departments.name = ?", "Lab").Find(&tasks, "user_id = ?", id )
 	if result2.Error == nil {
 
 	}
 
-	//subquery3 := dbconnection.DB().Model(&models.TaskEntered{}).Select("task_entereds.created_at as day, COUNT(task_entereds.created_at) as count")
-	//subquery3.Where("task_entereds.user_id = ?", id).Group("to_char(task_entereds.created_at, 'yyyy-mm-dd')")
 	subquery3 := dbconnection.DB().Model(&models.TaskEntered{}).Select("date_trunc('day', task_entereds.created_at) as day")
 	subquery3.Where("task_entereds.user_id = ?", id)
 	result3 := dbconnection.DB().Table("(?) as t", subquery3).Select("t.day as day_with_more_tasks, COUNT(t.day) as day_with_more_tasks_amount")
@@ -381,19 +379,5 @@ func getNursesTasksAndStatsDataByNurseId(w http.ResponseWriter, r *http.Request)
 		panic(err)
 	}
 	w.Write(jsonResp)
-	// }
-	// result1 := dbconnection.DB().Select("id,name").Find(&departments, "facility_id = ?", facilityid)
-	// if result1.Error == nil {
-	// 	usersdepartments.Departments = departments
 
-	// }
-
-	// jsonResp, err := json.Marshal(usersdepartments)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// w.Write(jsonResp)
-
-	//}
 }
