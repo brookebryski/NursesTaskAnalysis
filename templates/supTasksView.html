@@ -58,6 +58,7 @@
                     </header>
                     <!-- Preview image figure-->
                     <figure class="mb-4"><img class="img-fluid rounded" src="https://www.conexusmedstaff.com/rails/active_storage/representations/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNXFoRHc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--393d82bfa1a2ed891e63ab5348460aa52c994634/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCam9VWTI5dFltbHVaVjl2Y0hScGIyNXpld2c2QzNKbGMybDZaVWtpRFRrd01IZzBNREJlQmpvR1JWUTZER2R5WVhacGRIbEpJZ3REWlc1MFpYSUdPd2RVT2dsamNtOXdTU0lRT1RBd2VEUXdNQ3N3S3pBR093ZFUiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--3aa85d99e8f03529886838ace0bec0261b03f59b/shutterstock_1720528870.jpg" alt="..." /></figure>
+                    
                     <!-- Post content-->
                     <div class="dropdown">
                         <a class="btn filterregion btn-secondary dropdown-toggle" href="#" role="button" id="regionsMenu" data-bs-toggle="dropdown" aria-expanded="false">
@@ -95,15 +96,14 @@
                     <div id="facilitiesDropdownByRegion"></div>
                      
                     </br>
-                    <div id="facilitiesDataTableByRegion"></div>
+                    
+                    
                     
                    
                 </article>
                 
                
             </div>
-            
-            <!-- Side widgets-->
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-header"><b>Personal Info</b></div>
@@ -130,35 +130,50 @@
                     </div>
                 </div>
              
-                <div class="card mb-4">
-                    <div class="card-header">Filter2</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" id="automplete-2" type="text" placeholder="Search ..." aria-label="Search ..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Enter</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header">Filter3</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" id="automplete-2" type="text" placeholder="Search ..." aria-label="Search ..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Enter</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-header">Filter4</div>
-                    <div class="card-body">
-                        <div class="input-group">
-                            <input class="form-control" id="automplete-2" type="text" placeholder="Search ..." aria-label="Search ..." aria-describedby="button-search" />
-                            <button class="btn btn-primary" id="button-search" type="button">Enter</button>
-                        </div>
-                    </div>
-                </div>
                  
             </div>
+            <div  style="visibility:hidden" id="stats" class="col-8">
+                <div class="card mb-4">
+                    <div class="card-header"><b>Stats</b></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-7">
+                                <ul class="list-unstyled mb-0">
+                                    <li ><p style="display: inline">Total amount of tasks:</p></li>
+                                    <li ><p style="display: inline">Departments with most tasks:</p></li>
+                                    <li ><p style="display: inline">Amount:</p></li>
+                                    <li ><p style="display: inline">Day with more tasks entered:</p></li>
+                                    <li ><p style="display: inline">Amount:</p></li>
+                                    
+                                </ul>
+                            </div>
+                            <div class="col-5">
+                                <ul class="list-unstyled mb-0">
+                                    <li ><p style="display: inline" id="tat">:</p></li>
+                                    <li ><p style="display: inline" id="dwmt">:</p></li>
+                                    <li ><p style="display: inline"id="dwmta">:</p></li>
+                                    <li ><p style="display: inline" id="dwmte">:</p></li>
+                                    <li ><p style="display: inline" id="dwmtea">:</p></li>
+                                    
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+             
+                 
+            </div>
+            <div class="row">
+
+                <div class="col-sm-6" id="NursesDataTableTasks"></div>
+        
+                <div class="col-sm-6" id="NursesDataTableMetrics"></div>
+
+            </div>
+            
+            <!-- Side widgets-->
+            
         </div>
     </div>
     <!-- Footer-->
@@ -256,10 +271,19 @@ function fetchFacilitiesDropdownDataByRegion(int){
                   datatype: "json",
                   type: "GET",
                   success: function (data) {
+                    
+                      
                       var jsonparsed = JSON.parse(data);
                       $("#filteredFacilitiesDiv").css('visibility', 'visible')
+                      document.getElementById("facilitiesMenu").innerText='Facilities'
+                     
+
                       $("#filteredNursesDiv").css('visibility', 'hidden')
                       $("#filteredDepartmentsDiv").css('visibility', 'hidden')
+                      $("#stats").css('visibility', 'hidden')
+                      $("#NursesDataTableTasks").css('visibility', 'hidden')
+                      $("#NursesDataTableMetrics").css('visibility', 'hidden')
+                      
                       console.log(jsonparsed);
                      var dropdown = ""
                       for (var i=0; i< jsonparsed.length; i++){
@@ -296,11 +320,16 @@ function fetchNursesAndDepartmentsDropdownDataByFacility(int){
                   type: "GET",
                   success: function (data) {
                       var jsonparsed = JSON.parse(data);
-                      console.log(jsonparsed);
-                      console.log(jsonparsed["Departments"][1]["Id"]);
-                      
+                      document.getElementById("nursesMenu").innerText='Nurses'
+                      document.getElementById("departmentsMenu").innerText='Departments'
+                    
                       $("#filteredNursesDiv").css('visibility', 'visible')
                       $("#filteredDepartmentsDiv").css('visibility', 'visible')
+                      $("#stats").css('visibility', 'hidden')
+                      $("#NursesDataTableTasks").css('visibility', 'hidden')
+                      $("#NursesDataTableMetrics").css('visibility', 'hidden')
+                      
+                      
                       
                      var dropdownnurses = ""
                      var dropdowndepartments = ""
@@ -324,13 +353,77 @@ function fetchNursesAndDepartmentsDropdownDataByFacility(int){
                       $(".filteredDepartments:first-child").html($(this).text()+' <span class="caret"></span>')
                       })
                     }
+                    
+
+                  }
+                  
+              })
+            
+            }
+
+
+
+
+
+
+            $("#filteredNurses").on("click","li a",function(){
+        $(".filteredNurses:first-child").html($(this).text()+' <span class="caret"></span>')
+        fetchNursesEnteredTasksAndStatsDataTableByNurseId(parseInt($(this).data("custom-value")))
+        
+  
+  
+})
+
+function fetchNursesEnteredTasksAndStatsDataTableByNurseId(int){
+    
+    $.ajax({
+                  url: `http://localhost:3030/getnursestasksandstats?id=${int}`,
+                  datatype: "json",
+                  type: "GET",
+                  success: function (data) {
+                      var jsonparsed = JSON.parse(data);
+                      console.log(jsonparsed);
+                      console.log(jsonparsed[0]);
+                      
+                      
+                      $("#filteredNursesDiv").css('visibility', 'visible')
+                      $("#filteredDepartmentsDiv").css('visibility', 'visible')
+                      $("#stats").css('visibility', 'visible')
+                      $("#NursesDataTableTasks").css('visibility', 'visible')
+                      $("#NursesDataTableMetrics").css('visibility', 'hidden')
+                      
+                     
+                      
+                     
+                      if (jsonparsed.length !=0){
+                        $("#filteredNurses li a").click(function(){
+                      $(".filteredNurses:first-child").html($(this).text()+' <span class="caret"></span>')
+                      })
+                      }
+                      
                     var table = "<table id='tasktable' class='display compact'>";
-                          table += `<thead><tr><th>Facility</th><th>Total Employeed Nurses</th><th>Total Employeed Supervisors</th></tr></thead><tbody>`
-                      for (var i=0; i< jsonparsed.length; i++){
-                          table += `<tr><td>${jsonparsed["Nurses"][i]["Name"]}</td><td>${jsonparsed["Nurses"][i]["Id"]}</td><td>${jsonparsed["Nurses"][i]["Id"]}</td></tr>`;
+                          table += `<thead><tr><th>Tasks Entered</th><th>Date</th><th>Department</th></tr></thead><tbody>`
+                      for (var i=0; i< jsonparsed["Tasks"].length; i++){
+                          table += `<tr><td>${jsonparsed["Tasks"][i]["Name"]}</td><td>${jsonparsed["Tasks"][i]["CreatedAt"]}</td><td>${jsonparsed["Tasks"][i]["DName"]}</td></tr>`;
                       }
                       table += "</tbody></table>";
-                      document.getElementById("facilitiesDataTableByRegion").innerHTML = table;  
+                      document.getElementById("NursesDataTableTasks").innerHTML = table; 
+
+
+                      var table1 = "<table id='tasktable1' class='display compact'>";
+                          table1 += `<thead><tr><th>Tasks Entered</th><th>Date</th><th>Department</th></tr></thead><tbody>`
+                      for (var i=0; i< jsonparsed.length; i++){
+                          table1 += `<tr><td>${jsonparsed[i]["Name"]}</td><td>${jsonparsed[i]["CreatedAt"]}</td><td>${jsonparsed[i]["DName"]}</td></tr>`;
+                      }
+                      table1 += "</tbody></table>";
+                       
+                      document.getElementById("NursesDataTableMetrics").innerHTML = table1;  
+                      document.getElementById("dwmt").innerHTML =jsonparsed["Stats"]["DepMostTasks"]
+                      document.getElementById("dwmta").innerHTML =jsonparsed["Stats"]["DepMostTasksAmount"]
+                      document.getElementById("dwmte").innerHTML =jsonparsed["Stats"]["DayWithMoreTasks"]
+                      document.getElementById("dwmtea").innerHTML =jsonparsed["Stats"]["DayWithMoreTasksAmount"]
+                      document.getElementById("tat").innerHTML =jsonparsed["Stats"]["TotalTasks"]
+
 
                   }
                   
@@ -339,8 +432,19 @@ function fetchNursesAndDepartmentsDropdownDataByFacility(int){
                       scrollY: '200px',
                       scrollCollapse: true,
                   })
+                  $('#tasktable1').DataTable({
+                      scrollY: '200px',
+                      scrollCollapse: true,
+                  })
               })
             }
+
+
+
+
+
+
+
 
 // pass in region id to populate data table with facilities
 //   $("#filterregion li a").click(function(){
