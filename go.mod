@@ -1,4 +1,3 @@
-module NurseTasks
+module NursesTaskAnalysis
 
 go 1.18
-
