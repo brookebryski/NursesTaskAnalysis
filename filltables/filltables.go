@@ -31,9 +31,59 @@ func FillTables() {
 	BrookePassword := "Brooke123"
 	hashedBrookePassword, _ := HashPassword(BrookePassword)
 
+	CindyPassword := "Cindy123"
+	hashedCindyPassword, _ := HashPassword(CindyPassword)
+
+	PaulaPassword := "Paula123"
+	hashedPaulaPassword, _ := HashPassword(PaulaPassword)
+
+	JasminePassword := "Jasmine123"
+	hashedJasminePassword, _ := HashPassword(JasminePassword)
+
+	MonicaPassword := "Monica123"
+	hashedMonicaPassword, _ := HashPassword(MonicaPassword)
+
 	User_Nurse := models.User{
 		Name:         "Helen",
 		Password:     hashedHelenPassword,
+		IsNurse:      "True",
+		IsSupervisor: "False",
+		RegionID:     1,
+		FacilityID:   2,
+		IsLoggedIn:   "False",
+	}
+	User_Nurse1 := models.User{
+		Name:         "Cindy",
+		Password:     hashedCindyPassword,
+		IsNurse:      "True",
+		IsSupervisor: "False",
+		RegionID:     1,
+		FacilityID:   1,
+		IsLoggedIn:   "False",
+	}
+	User_Nurse2 := models.User{
+		Name:         "Paula",
+		Password:     hashedPaulaPassword,
+		IsNurse:      "True",
+		IsSupervisor: "False",
+		RegionID:     2,
+		FacilityID:   4,
+		IsLoggedIn:   "False",
+	}
+
+	User_Nurse3 := models.User{
+		Name:         "Jasmine",
+		Password:     hashedJasminePassword,
+		IsNurse:      "True",
+		IsSupervisor: "False",
+		RegionID:     2,
+		FacilityID:   3,
+		IsLoggedIn:   "False",
+	}
+
+	User_Nurse4 := models.User{
+		Name:         "Monica",
+		Password:     hashedMonicaPassword,
 		IsNurse:      "True",
 		IsSupervisor: "False",
 		RegionID:     1,
@@ -57,7 +107,7 @@ func FillTables() {
 		IsNurse:      "False",
 		IsSupervisor: "True",
 		RegionID:     2,
-		FacilityID:   1,
+		FacilityID:   4,
 		IsLoggedIn:   "False",
 	}
 	User_Supervisor2 := models.User{
@@ -66,7 +116,7 @@ func FillTables() {
 		IsNurse:      "False",
 		IsSupervisor: "True",
 		RegionID:     2,
-		FacilityID:   2,
+		FacilityID:   3,
 		IsLoggedIn:   "False",
 	}
 
@@ -190,6 +240,10 @@ func FillTables() {
 	dbconnection.DB().Create(&task8)
 	dbconnection.DB().Create(&task9)
 	dbconnection.DB().Create(&User_Nurse)
+	dbconnection.DB().Create(&User_Nurse1)
+	dbconnection.DB().Create(&User_Nurse2)
+	dbconnection.DB().Create(&User_Nurse3)
+	dbconnection.DB().Create(&User_Nurse4)
 	dbconnection.DB().Create(&User_Supervisor_Nurse)
 	dbconnection.DB().Create(&User_Supervisor1)
 	dbconnection.DB().Create(&User_Supervisor2)
