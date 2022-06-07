@@ -64,15 +64,17 @@ func loginauthFormHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
 }
 
 func tasksHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK) //move header TODO:test with db down
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 	var tasks []models.Task
 	id := r.URL.Query().Get("id")
 	result := dbconnection.DB().Find(&tasks, "department_id = ?", id)
 	if result.Error == nil {
+		w.WriteHeader(http.StatusOK) //move header TODO:test with db down
+	    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		jsonResp, err := json.Marshal(tasks)
 		if err != nil {
 			panic(err)
@@ -144,8 +146,7 @@ func postTask(w http.ResponseWriter, r *http.Request) {
 
 func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 	type Task struct {
 		CreatedAt    time.Time
 		TaskID       uint   `gorm:"not null"`
@@ -158,6 +159,8 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	result := dbconnection.DB().Select("task_entereds.created_at,task_entereds.task_id,task_entereds.user_id,tasks.*").Joins("JOIN task_entereds on task_entereds.task_id=tasks.id").Find(&tasks, "user_id = ?", id)
 	if result.Error == nil {
+		w.WriteHeader(http.StatusOK)
+	    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		jsonResp, err := json.Marshal(tasks)
 		if err != nil {
 			panic(err)
@@ -169,8 +172,7 @@ func getEnteredTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 	type Facility struct {
 		ID       uint   `gorm:"not null"`
 		RegionID uint   `gorm:"not null"`
@@ -180,6 +182,8 @@ func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	result := dbconnection.DB().Select("facilities.id,facilities.region_id,facilities.name").Joins("JOIN regions on facilities.region_id=regions.id").Find(&facilities, "region_id = ?", id)
 	if result.Error == nil {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		jsonResp, err := json.Marshal(facilities)
 		if err != nil {
 			panic(err)
@@ -191,8 +195,7 @@ func getFacilitiesDropdownDataByRegion(w http.ResponseWriter, r *http.Request) {
 
 }
 func getDepartmentsAndNursesDropdownDataByFacility(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusCreated)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 
 	type User struct {
 		Id   uint
@@ -225,6 +228,8 @@ func getDepartmentsAndNursesDropdownDataByFacility(w http.ResponseWriter, r *htt
 
 	}
 
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	jsonResp, err := json.Marshal(usersdepartments)
 	if err != nil {
 		panic(err)
@@ -236,8 +241,7 @@ func getDepartmentsAndNursesDropdownDataByFacility(w http.ResponseWriter, r *htt
 
 func getFacilitiesTableDataByRegion(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusCreated)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 	type Facility struct {
 		ID       uint   `gorm:"not null"`
 		RegionID uint   `gorm:"not null"`
@@ -247,6 +251,8 @@ func getFacilitiesTableDataByRegion(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	result := dbconnection.DB().Select("facilities.id,facilities.region_id,facilities.name").Joins("JOIN regions on facilities.region_id=regions.id").Find(&facilities, "region_id = ?", id)
 	if result.Error == nil {
+		w.WriteHeader(http.StatusCreated)
+	    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		jsonResp, err := json.Marshal(facilities)
 		if err != nil {
 			panic(err)
@@ -275,8 +281,7 @@ func createNewTasks(w http.ResponseWriter, r *http.Request) {
 
 func getregionandfacilityHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 	type Region struct {
 		Name string `gorm:"not null"`
 	}
@@ -304,6 +309,8 @@ func getregionandfacilityHandler(w http.ResponseWriter, r *http.Request) {
 		regionFacility.FName = facility.Name
 
 	}
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	jsonResp, err := json.Marshal(regionFacility)
 	if err != nil {
 		panic(err)
@@ -313,8 +320,7 @@ func getregionandfacilityHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getNursesTasksAndStatsDataByNurseId(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusCreated)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	
 
 	type Task struct {
 		CreatedAt    time.Time
@@ -373,6 +379,8 @@ func getNursesTasksAndStatsDataByNurseId(w http.ResponseWriter, r *http.Request)
 	result3.Group("t.day").Order("day_with_more_tasks_amount desc").Limit(1).Find(&stats)
 
 	nursestats.Stats = stats
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	jsonResp, err := json.Marshal(nursestats)
 	if err != nil {
 		panic(err)
